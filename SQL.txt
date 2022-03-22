@@ -1,0 +1,85 @@
+--FIND THE HIGHEST GROSSING ARTISTS
+
+SELECT artist.Name as artist ,sum(InvoiceLine.Quantity*InvoiceLine.UnitPrice ) as 'ArtistTotal'
+from Artist
+
+JOIN Album
+ON Artist.ArtistId=Album.ArtistId
+
+JOIN Track
+ON Track.AlbumId=Album.AlbumId
+
+JOIN InvoiceLine 
+ON InvoiceLine.TrackId=Track.TrackId
+
+JOIN Invoice
+ON InvoiceLine.InvoiceId=Invoice.InvoiceId
+
+GROUP by Artist.Name
+
+ORDER by ArtistTotal DESC
+
+LIMIT 15
+
+
+
+_______________________________________________________________________________________________________________________
+
+--FIND MOST POPULAR GENRE
+
+SELECT Genre.Name,COUNT(GENRE.GenreId) AS MOST_POPULAR
+
+FROM Track
+
+JOIN Genre
+ON GENRE.GenreId=Track.GenreId
+
+GROUP BY GENRE.Name
+
+ORDER BY MOST_POPULAR DESC
+
+LIMIT 15
+
+
+________________________________________________________________________________________________________________________
+-- FIND HIGHEST GROSSING ALBUM
+
+SELECT Album.Title,sum(InvoiceLine.Quantity*InvoiceLine.UnitPrice ) as 'Album_REVENUE'
+
+FROM Album
+
+JOIN Artist
+ON Artist.ArtistId=Album.ArtistId
+
+JOIN Track
+ON Track.AlbumId=Album.AlbumId
+
+JOIN InvoiceLine 
+ON InvoiceLine.TrackId=Track.TrackId
+
+JOIN Invoice
+ON InvoiceLine.InvoiceId=Invoice.InvoiceId
+
+GROUP bY Album.AlbumId
+
+ORDER by Album_REVENUE DESC
+
+LIMIT 15
+____________________________________________________________________________________________________________
+
+
+
+
+-- Find most played track in all playlists
+
+SELECT Track.Name as "Track Name" ,count(Track.TrackId) as "Times Played"
+FROM Track
+
+join PlaylistTrack
+on PlaylistTrack.TrackId=Track.TrackId
+
+GROUP by Track.Name
+
+ORDER by count(Track.TrackId) desc
+
+LIMIT 15
